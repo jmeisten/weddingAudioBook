@@ -1,7 +1,14 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 apiKey=$(cat ~/api.txt)
 echo 1234 > test.txt
+
+sudo python3 weddingAudioBook.py &
 
 while [ 1 ]; do
     online=$(curl -s -o /dev/null -w "%{http_code}" http://www.google.com)
