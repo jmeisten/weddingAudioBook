@@ -5,7 +5,7 @@ while [ 1 ]; do
     echo $apiKey 
     git add -A .
     git commit -m "Auto Commit from shell"
-    git push master
+    git push https://github.com/jmeisten/weddingAudioBook.git
 
     sleep 15
     
