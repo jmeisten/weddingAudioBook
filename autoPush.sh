@@ -8,7 +8,7 @@ fi
 apiKey=$(cat ~/api.txt)
 echo 1234 > test.txt
 
-sudo python3 weddingAudioBook.py &
+# sudo python3 weddingAudioBook.py &
 
 while [ 1 ]; do
     online=$(curl -s -o /dev/null -w "%{http_code}" http://www.google.com)
