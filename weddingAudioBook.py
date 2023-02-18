@@ -1,4 +1,4 @@
-import threading, sys, os, tempfile
+import threading, sys, os, tempfile, distro
 import playsound, time, datetime, json, queue
 import wave, keyboard
 import sounddevice as sd
@@ -10,6 +10,11 @@ bookSize = 0
 shouldRecord = False
 recordingFinished = False
 
+deviceNum = 0
+
+if 'Mint' in distro.name(pretty=True):
+    deviceNum=6
+
 bookSize = len(os.listdir("data"))
 class Recorder:
     started = False
@@ -18,8 +23,6 @@ class Recorder:
     q = queue.Queue(-1)
     stopRecording = False
                               
-    
-
     def clearBuffer(self):
         self.q.empty()
         self.textHeard=""
@@ -62,7 +65,7 @@ class Recorder:
             print("Something happened with the microphone. Check logs")
         
     
-    def __init__(self,dev='/dev/sound0',sr=44100):
+    def __init__(self,dev='/dev/sound0',sr=48000):
         self.device = dev
         self.samplerate = sr
         
@@ -79,7 +82,7 @@ class Recorder:
         self.thread.join()
 
 while True:
-    audioRecorder = Recorder(0)
+    audioRecorder = Recorder(deviceNum,48000)
     val = input("Do you want to record Y/N\n")
     if val.lower() == "y":
         shouldRecord = True
