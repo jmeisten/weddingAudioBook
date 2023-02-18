@@ -4,7 +4,6 @@ import wave
 import sounddevice as sd
 import soundfile as sf
 import numpy 
-from Lever import Lever
 
 audioBook = []
 bookSize = 0
@@ -85,20 +84,17 @@ class Recorder:
             time.sleep(.1)
         self.thread.join()
 
-lever = Lever()
-print("ready to record")
 while True:
-    if lever.getActivated():
-        audioRecorder = Recorder(deviceNum,48000)
+    audioRecorder = Recorder(deviceNum,48000)
+    val = input("Do you want to record Y/N\n")
+    if val.lower() == "y":
         shouldRecord = True
         recordingFileName = f"data/recording{bookSize}.wav"
         audioRecorder.start(recordingFileName)
-        print("Start your messege")
         while shouldRecord:
-            if not lever.getActivated():
-                print("RECORDING TERMINATED")
+            if keyboard.is_pressed("s"):
+                print("RECORDING TERMINATED PRESSED")
                 audioRecorder.stop()
                 audioBook.append(recordingFileName)
                 print(len(audioBook))
                 shouldRecord = False
-                print("ready to record")
