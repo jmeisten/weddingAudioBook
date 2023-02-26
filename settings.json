@@ -1,0 +1,11 @@
+{
+    "pinInfo" : {
+        "number" : 7,
+        "invert" : true
+    },
+    "micInfo" : {
+        "devNum" : 2,
+        "channels": 2,
+        "sampleRate": 48000 
+    }
+}

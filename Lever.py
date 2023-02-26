@@ -9,7 +9,12 @@ class Lever:
 
     def main(self):
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.leverPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        pud = None
+        if self.pullUp:
+            pud = GPIO.PUD_UP
+        else:
+            pud = GPIO.PUD_DOWN
+        GPIO.setup(self.leverPin, GPIO.IN, pull_up_down=pud)
 
         try:
             phonePickedUpTimer = Timer(2)
@@ -32,7 +37,8 @@ class Lever:
     def getActivated(self):
         return self.leverActivated
 
-    def __init__(self, pinNumber=7):
+    def __init__(self, pinNumber=7, pullUp=True):
         self.leverPin = pinNumber
+        self.pullUp = pullUp
         thread = threading.Thread(target=self.main, daemon=True)
         thread.start()

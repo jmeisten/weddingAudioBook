@@ -1,22 +1,31 @@
-import threading, sys, os, tempfile, distro
-import playsound, time, datetime, json, queue
-import wave
+import threading, sys, os, tempfile
+import time, json, queue
+import pygame
 import sounddevice as sd
 import soundfile as sf
-import numpy 
 from Lever import Lever
+
+settings = None
+if os.path.exists("settings.json"):
+    with open("settings.json") as f:
+        settings = json.load(f)
+
+if settings is None:
+    print("Settings file not present")
+    exit()
+
+
 
 audioBook = []
 bookSize = 0
 shouldRecord = False
 recordingFinished = False
 
-deviceNum = 0
-
-if 'Mint' in distro.name(pretty=True):
-    deviceNum=6
-elif os.uname().nodename == 'raspberrypi':
-    deviceNum=1
+deviceNum = settings["micInfo"]["devNum"]
+sr = settings["micInfo"]["sampleRate"]
+channels = settings["micInfo"]["channels"]
+pinNumber = settings["pinInfo"]["number"]
+invert = settings["pinInfo"]["invert"]
 
 bookSize = len(os.listdir("data"))
 
@@ -85,20 +94,32 @@ class Recorder:
             time.sleep(.1)
         self.thread.join()
 
-lever = Lever()
+lever = Lever(pinNumber=pinNumber,pullUp=invert)
+pygame.mixer.init()
 print("ready to record")
+
+def play(fileLocation):
+    pygame.mixer.music.load(fileLocation)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+    return
+
 while True:
     if lever.getActivated():
-        audioRecorder = Recorder(deviceNum,48000)
         shouldRecord = True
-        recordingFileName = f"data/recording{bookSize}.wav"
+        recordingFileName = f"data/recording{bookSize+1}.wav"
+        play("sounds//welcome.mp3")
+        audioRecorder = Recorder(deviceNum,sr)
         audioRecorder.start(recordingFileName)
+        play("sounds//beep.wav")
         print("Start your messege")
         while shouldRecord:
             if not lever.getActivated():
                 print("RECORDING TERMINATED")
                 audioRecorder.stop()
                 audioBook.append(recordingFileName)
-                print(len(audioBook))
+                bookSize+=1
+                print(bookSize)
                 shouldRecord = False
                 print("ready to record")
