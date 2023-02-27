@@ -68,6 +68,7 @@ Using a digital multimeter look for continuity between the pins. Look for pins t
   5. Get sound device info
      - > python3 -m sounddevice
      - Device will be listed as Plugable USB Audio Device
+       ![](/images/sounddevice.png)
   6. Update device number in settings json 
      - #### THIS IS IMPORTATNT OR THE CODE WILL NOT RUN. Unless it just so happens to be the same device number
   7. To test run 
