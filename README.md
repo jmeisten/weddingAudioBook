@@ -65,6 +65,7 @@ Using a digital multimeter look for continuity between the pins. Look for pins t
   3. Cd into cloned repo
   4. Install requirements 
     - > pip3 install -r requirements.txt
+    - > sudo apt-get install libportaudio2
   5. Get sound device info
      - > python3 -m sounddevice
      - Device will be listed as Plugable USB Audio Device
