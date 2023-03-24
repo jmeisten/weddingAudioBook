@@ -58,7 +58,7 @@ class Recorder:
                 self.samplerate = int(device_info['default_samplerate'])
             if self.fileName is None:
                 self.fileName = tempfile.mktemp(prefix='delme_rec_unlimited_',
-                                                suffix='.wav', dir='')
+                                                suffix='.mp3', dir='')
 
             # Make sure the file is opened before recording anything:
             with sf.SoundFile(self.fileName,samplerate=self.samplerate, mode='x',
@@ -82,7 +82,7 @@ class Recorder:
         self.device = dev
         self.samplerate = sr
         
-    def start(self,filename="temp.wav"):
+    def start(self,filename="temp.mp3"):
         self.fileName = filename
         self.stopRecording = False
         self.thread = threading.Thread(target=self.main, daemon=False)
@@ -108,7 +108,7 @@ def play(fileLocation):
 while True:
     if lever.getActivated():
         shouldRecord = True
-        recordingFileName = f"data/recording{bookSize+1}.wav"
+        recordingFileName = f"data/recording{bookSize+1}.mp3"
         play("sounds//welcome.mp3")
         audioRecorder = Recorder(deviceNum,sr)
         audioRecorder.start(recordingFileName)
