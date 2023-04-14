@@ -82,7 +82,7 @@ class Recorder:
         self.device = dev
         self.samplerate = sr
         
-    def start(self,filename="temp.wav"):
+    def start(self,filename="/sd/temp.wav"):
         self.fileName = filename
         self.stopRecording = False
         self.thread = threading.Thread(target=self.main, daemon=False)
