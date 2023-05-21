@@ -75,3 +75,13 @@ Using a digital multimeter look for continuity between the pins. Look for pins t
   7. To test run 
      - python3 weddingAudioBook.py
      - If the phone reciever lever is acting inverted then you must update the settings json pinInfo -> inverted variable
+
+#### Set up autolaunch
+  1. The script should have execute persmissions alreadxy but if it does not
+     - > sudo chmod 755 launcher.sh
+  2. Open crontab 
+     - > sudo crontab -e
+  3. Create a logging directory
+     - > mkdir /home/pi/logs
+  4. Enter the following line
+     - > @reboot sh /home/pi/weddingAudioBoot/launcher.sh > home/pi/logs/cron 2>&1
